@@ -6,20 +6,20 @@ function [data_with_crc,crc]=AttachParityBits(bitstream,crc_type,attach_zeros)
     end
     switch(crc_type)
         case "crc6"
-            Dpos=[5 0]
-            N=6
+            Dpos=[5 0];
+            N=6;
         case "crc11"
-            Dpos=[10 9 5 0]
-            N=11
+            Dpos=[10 9 5 0];
+            N=11;
         case "crc16"
-            Dpos=[12 5 0]
-            N=16
+            Dpos=[12 5 0];
+            N=16;
         case "crc24a"
             Dpos=[23 18 17 14 11 10 7 6 5 4 3 1 0]+1;
             N=24;
         case "crc24b"
             Dpos=[23 6 5 1 0]+1;
-            N=24
+            N=24;
         case "crc24c"
             Dpos=[23 21 20 17 15 13 12 8 4 2 1 0]+1;
             N=24;

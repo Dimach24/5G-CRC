@@ -14,7 +14,7 @@ end
 disp('==============================================================')
 
 [protected, patiy_bits]=AttachParityBits(data,crctype);
-disp("Parity bits according "+crctype+ "poly:");
+disp("Parity bits according "+crctype+ " poly:");
 disp(patiy_bits);
 [extracted,is_correct]=ExtractDataCheckParity(protected,crctype);
 disp("Checking data")

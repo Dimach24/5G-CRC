@@ -37,7 +37,6 @@ function [data_with_crc,crc]=AttachParityBits(bitstream,crc_type,attach_zeros)
     end
     crc=bitstream(1:N);
     for n=1:L
-        disp(crc)
         pulled_bit=crc(1);
         % shifting the word
         crc=circshift(crc,-1);

@@ -28,6 +28,7 @@ function [data_with_crc,crc]=AttachParityBits(bitstream,crc_type,attach_zeros)
                 "Invalid crc type. Must be one of {crc6, crc11," + ...
                 "crc16, crc24a, crc24b, crc24c}."))
     end
+    Dpos=25-Dpos;
     L=length(bitstream);
     if attach_zeros
         bitstream=[bitstream, zeros(1,N)];
@@ -36,6 +37,7 @@ function [data_with_crc,crc]=AttachParityBits(bitstream,crc_type,attach_zeros)
     end
     crc=bitstream(1:N);
     for n=1:L
+        disp(crc)
         pulled_bit=crc(1);
         % shifting the word
         crc=circshift(crc,-1);

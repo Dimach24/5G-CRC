@@ -1,9 +1,13 @@
 function [data_with_crc,crc]=AttachParityBits(bitstream,crc_type,attach_zeros)
+    % Attaches parity bits according to chosen poly. If attach_zeros=false,
+    % algo interprets last bits as an parity bits mask
     arguments
-        bitstream
-        crc_type string
-        attach_zeros=true
+        bitstream           % data to validate
+        crc_type string     % must be "crc<length><?letter>" letter is only necessary crc24_.
+        attach_zeros=true   % use last <length> symbs as a mask or attach zeros before calculating
     end
+
+    % poly initializing 
     switch(crc_type)
         case "crc6"
             Dpos=[5 0];
@@ -28,22 +32,31 @@ function [data_with_crc,crc]=AttachParityBits(bitstream,crc_type,attach_zeros)
                 "Invalid crc type. Must be one of {crc6, crc11," + ...
                 "crc16, crc24a, crc24b, crc24c}."))
     end
+
+    % reverse of the indexes (indexes are in 
+    % the least significant order, but bits 
+    % are in the most significant order).
     Dpos=25-Dpos;
     L=length(bitstream);
+
     if attach_zeros
         bitstream=[bitstream, zeros(1,N)];
     else
         L=L-N;
     end
+
+    % shift registers word
     crc=bitstream(1:N);
     for n=1:L
         pulled_bit=crc(1);
         % shifting the word
         crc=circshift(crc,-1);
         crc(N)=bitstream(n+N);
+        % subtraction (using XOR)
         if pulled_bit
             crc(Dpos)=~crc(Dpos);
         end
     end
+    % attach the word instead of last N bits (zeros or mask)
     data_with_crc=[bitstream(1:L), crc];
 end

@@ -1,5 +1,5 @@
 function [data_with_crc,crc]=AttachParityBits(bitstream,crc_type,attach_zeros)
-    % Attaches parity bits according to chosen poly. If attach_zeros=false,
+    % Attaches parity bits according to chosen poly (see 5.1 TS38.212). If attach_zeros=false,
     % algo interprets last bits as an parity bits mask
     arguments
         bitstream           % data to validate

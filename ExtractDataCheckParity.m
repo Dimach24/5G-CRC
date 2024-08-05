@@ -1,8 +1,13 @@
 function [data,is_data_valid]=ExtractDataCheckParity(bitstream,crc_type)
+    % checks whether the data responds to parity 
+    % bits and returns the data and a validation flag.
+    % see 5.1. CRC calculation of TS38.212
     arguments
-        bitstream
-        crc_type string
+        bitstream           % data with parity bits
+        crc_type string     % must be "crc<length><?letter>" letter is only necessary crc24_.
     end
+    
+    % choose length
     switch(crc_type)
         case "crc6"
             N=6;
@@ -17,7 +22,10 @@ function [data,is_data_valid]=ExtractDataCheckParity(bitstream,crc_type)
                 "Invalid crc type. Must be one of {crc6, crc11," + ...
                 "crc16, crc24a, crc24b, crc24c}."))
     end
+    % extracting data
     data=bitstream(1:end-N);
+    
+    % checking crc (must be zeros)
     [~,crc]=AttachParityBits(bitstream,crc_type,false);
     is_data_valid=~any(crc);
 end
